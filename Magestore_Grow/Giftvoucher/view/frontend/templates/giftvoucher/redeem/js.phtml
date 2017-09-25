@@ -1,0 +1,15 @@
+<?php
+/**
+ * Copyright © 2017 Magestore. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+if ($block->isEnabled()) {
+?>
+<script>
+    require(["Magestore_Giftvoucher/js/model/redeem/form"], function(RedeemModel){
+        RedeemModel.initData('<?php echo $block->getFormData();?>');
+    });
+</script>
+<?php } ?>

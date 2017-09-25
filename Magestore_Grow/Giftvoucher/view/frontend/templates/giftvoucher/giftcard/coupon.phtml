@@ -1,0 +1,41 @@
+<?php
+/**
+ * Copyright © 2017 Magestore. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+if ($block->isEnabled()) :
+?>
+
+<div class="block discount gift-card active cart-page"
+     id="discount-giftcard-form"
+     data-mage-init='{"collapsible":{"openedState": "active", "saveState": false}}'
+     data-bind="scope:'discount-giftcard-form'">
+    <div class="title">
+        <strong id="block-gift-card-discount-heading"><?php echo __('Gift Card') ?></strong>
+    </div>
+    <div class="content">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    </div>
+</div>
+<script type="text/x-magento-init">
+{
+    "#discount-giftcard-form": {
+        "Magento_Ui/js/core/app": {
+            "components" : {
+                "discount-giftcard-form": {
+                    "component": "Magestore_Giftvoucher/js/view/redeem/form",
+                    "displayArea": "discount-giftcard-form"
+                }
+            }
+        }
+    }
+}
+</script>
+<script>
+    require(["Magestore_Giftvoucher/js/model/redeem/form"], function(RedeemModel){
+        RedeemModel.initData('<?php echo $block->getFormData();?>');
+    });
+</script>
+<?php endif; ?>

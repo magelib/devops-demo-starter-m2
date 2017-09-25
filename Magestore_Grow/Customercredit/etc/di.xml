@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!--
+  ~ Magestore
+  ~
+  ~ NOTICE OF LICENSE
+  ~
+  ~ This source file is subject to the Magestore.com license that is
+  ~ available through the world-wide-web at this URL:
+  ~ http://www.magestore.com/license-agreement.html
+  ~
+  ~ DISCLAIMER
+  ~
+  ~ Do not edit or add to this file if you wish to upgrade this extension to newer
+  ~ version in the future.
+  ~
+  ~ @category    Magestore
+  ~ @package     Magestore_Customercredit
+  ~ @copyright   Copyright (c) 2017 Magestore (http://www.magestore.com/)
+  ~ @license     http://www.magestore.com/license-agreement.html
+  ~
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="customercredit_quote_item" type="Magestore\Customercredit\Plugin\QuoteItem" sortOrder="100"/>
+    </type>
+    <!--<type name="Magento\Catalog\Model\Product">-->
+        <!--<plugin name="before_getOptionById" type="Magestore\Customercredit\Plugin\Model\Product\Getoptionbyid"/>-->
+    <!--</type>-->
+
+    <!-- Begin - Add pricing price to price pool for product type is customercredit -->
+    <virtualType name="Magestore\Customercredit\Pricing\Price\Pool" type="Magento\Framework\Pricing\Price\Pool">
+        <arguments>
+            <argument name="prices" xsi:type="array">
+                <item name="wishlist_configured_price" xsi:type="string">Magestore\Customercredit\Pricing\ConfiguredPrice\ConfigurableProduct</item>
+            </argument>
+            <argument name="target" xsi:type="object">Magento\Catalog\Pricing\Price\Pool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magestore\Customercredit\Pricing\Price\Collection" type="Magento\Framework\Pricing\Price\Collection">
+        <arguments>
+            <argument name="pool" xsi:type="object">Magestore\Customercredit\Pricing\Price\Pool</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\Pricing\PriceInfo\Factory">
+        <arguments>
+            <argument name="types" xsi:type="array">
+                <item name="customercredit" xsi:type="array">
+                    <item name="infoClass" xsi:type="string">Magento\Framework\Pricing\PriceInfo\Base</item>
+                    <item name="prices" xsi:type="string">Magestore\Customercredit\Pricing\Price\Collection</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- End - Add pricing price to price pool for product type is customercredit -->
+
+    <!--<type name="Magento\Sales\Model\Order">-->
+        <!--<plugin name="update_payment_fee_order" type="Magestore\Customercredit\Plugin\UpdateDiscountForOrder"/>-->
+    <!--</type>-->
+    <!--<type name="Magento\Paypal\Model\Cart">-->
+        <!--<plugin name="update_paypal_fee_order" type="Magestore\Customercredit\Plugin\UpdateDiscountForOrder"/>-->
+    <!--</type>-->
+
+</config>
